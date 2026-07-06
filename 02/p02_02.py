@@ -1,7 +1,7 @@
 # 2.4 Preparing input texts for LLMs
 
 from pathlib import Path
-from reasoning_from_scratch.qwen3 import Qwen3Tokenizer, download_qwen3_small
+from reasoning_from_scratch.qwen3 import Qwen3Tokenizer
 
 
 # Creates "qwen" folder and downloads "tokenizer-base.json" 
