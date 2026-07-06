@@ -15,6 +15,7 @@ input_token_ids_list = tokenizer.encode(prompt)
 print(f"\nNumber of input tokens: {len(input_token_ids_list)}")
 
 
+# Load the input tensor
 device = get_device()
 input_tensor = torch.tensor(input_token_ids_list)
 input_tensor_fmt = input_tensor.unsqueeze(0)  
@@ -27,9 +28,13 @@ model.load_state_dict(torch.load(model_path))
 model.to(device)
 console.print("Qwen3 loaded in VRAM\n", style="gold1")
 
-
+# Inference
 with torch.inference_mode():
     output_tensor = model(input_tensor_fmt)  
 output_tensor_fmt = output_tensor.squeeze(0) 
 print(f"Formatted Output tensor shape: {output_tensor_fmt.shape}")
+
+last_token = output_tensor_fmt[-1]
+print(last_token)
+console.print(f"{tokenizer.decode([20286])}", style="white")
 print()

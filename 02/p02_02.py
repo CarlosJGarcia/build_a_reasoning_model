@@ -7,7 +7,7 @@ from reasoning_from_scratch.qwen3 import Qwen3Tokenizer
 # Creates "qwen" folder and downloads "tokenizer-base.json" 
 download_qwen3_small(kind="base", tokenizer_only=True, out_dir="qwen3")
 
-# Crea el objeto tokenizer
+# Crea los objetos tokenizer_path y tokenizer. En Python el operador / se traduce automáticamente por el "path separator" de Linux, macOS o Windows.
 tokenizer_path = Path("qwen3") / "tokenizer-base.json"
 tokenizer = Qwen3Tokenizer(tokenizer_file_path=tokenizer_path)
 
