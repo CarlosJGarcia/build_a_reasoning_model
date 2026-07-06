@@ -36,28 +36,27 @@ def get_device(enable_tensor_cores=True):
 
     return device
 
+# =========
+# Execution
+# =========
+if __name__ == "__main__":  
+    print()
+    console = Console()
+    device = get_device()
+    console.print(f"device: {device}\n", style="gold1")
 
-print()
-console = Console()
-device = get_device()
-console.print(f"device: {device}\n", style="gold1")
+    # Downloads Qwen3 0.6B into the "qwen" folder. The name of the file is "qwen3-0.6B-base.pth" (no funciona por el proxy)
+    # download_qwen3_small(kind="base", tokenizer_only=False, out_dir="qwen3")
+    console.print("Qwen3 0.6B Downloaded", style="gold1", highlight=False)
 
-# Downloads Qwen3 0.6B into the "qwen" folder. The name of the file is "qwen3-0.6B-base.pth" (no funciona por el proxy)
-# download_qwen3_small(kind="base", tokenizer_only=False, out_dir="qwen3")
-console.print("Qwen3 0.6B Downloaded", style="gold1", highlight=False)
+    # Load the model
+    model_path = Path("qwen3") / "qwen3-0.6B-base.pth"
+    model = Qwen3Model(QWEN_CONFIG_06_B)
+    model.load_state_dict(torch.load(model_path))
+    model.to(device)
+    console.print("Qwen3 loaded in VRAM\n", style="gold1")
 
-# Load the model
-model_path = Path("qwen3") / "qwen3-0.6B-base.pth"
-model = Qwen3Model(QWEN_CONFIG_06_B)
-model.load_state_dict(torch.load(model_path))
-model.to(device)
-console.print("Qwen3 loaded in VRAM\n", style="gold1")
-
-# Shows model architecture
-console.print("Model architecture:", style="gold1")
-print(model)
-print()
-
-# Pause 0
-# key = input("Press ENTER to exit.")
-# print()  
+    # Shows model architecture
+    console.print("Model architecture:", style="gold1")
+    print(model)
+    print()
