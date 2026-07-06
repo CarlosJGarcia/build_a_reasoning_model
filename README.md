@@ -1,18 +1,7 @@
 **Instalación del entorno** \
-conda create -n llm_scratch_cuda python=3.11 -y \
-conda activate llm_scratch_cuda \
-conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia \
-conda install -c conda-forge matplotlib pandas tqdm jupyterlab \
-conda install -c conda-forge tiktoken \
-conda install -c conda-forge rich \
-pip install datasets \
-conda install -c conda-forge lxml -y \
-conda install -c conda-forge nltk -y \
-pip install "tensorflow[and-cuda]" \
-pip install wandb \
-pip install safetensors \
-pip install gguf \
-pip install transformers
+conda create -n reasoning_scratch_cuda python=3.11.15 \
+pip install "torch>=2.10.0" torchvision torchaudio "tokenizers>=0.22.2" reasoning-from-scratch   --extra-index-url https://download.pytorch.org/whl/cu128   --trusted-host pypi.org   --trusted-host files.pythonhosted.org   --trusted-host download.pytorch.org   --trusted-host download-r2.pytorch.org   --trusted-host pypi.nvidia.com \
+
 
 **Importante:** \
 No hacer `$ conda update --all -c conda-forge -y` porque instala una versión de PyTorch sin CUDA \
