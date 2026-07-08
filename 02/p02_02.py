@@ -20,8 +20,15 @@ console.print(f"\nTokenizer created (from {tokenizer_path})\n", style="gold1")
 prompt = "The quick brown fox jumps over the lazy dog. Milana bonita."
 input_token_ids_list = tokenizer.encode(prompt)
 text = tokenizer.decode(input_token_ids_list)
-print(f"Input: {text}\n")
+print(f"Input: {text}")
 print("Token IDs:")
 for i in input_token_ids_list:
     print(f"{i} --> {tokenizer.decode([i])}")
 print()
+
+# Test the tokernizer: Round trip Encode + Decode
+prompt = "Explain large language models."
+input_token_ids_list = tokenizer.encode(prompt)
+text = tokenizer.decode(input_token_ids_list)
+print(f"Input: {prompt}")
+console.print(f"Output: {text}\n", style="white")
