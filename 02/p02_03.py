@@ -1,4 +1,6 @@
 # 2.5 Loading pretrained models
+# Cargamos el modelo Qwen3 0.6B = Qwen3 600M
+
 import torch
 from pathlib import Path
 from rich.console import Console
@@ -54,7 +56,7 @@ if __name__ == "__main__":
     model = Qwen3Model(QWEN_CONFIG_06_B)
     model.load_state_dict(torch.load(model_path))
     model.to(device)
-    console.print("Qwen3 loaded in VRAM\n", style="gold1")
+    console.print(f"Qwen3 loaded in VRAM (from {model_path})\n", style="gold1", highlight=False)
 
     # Shows model architecture
     console.print("Model architecture:", style="gold1")

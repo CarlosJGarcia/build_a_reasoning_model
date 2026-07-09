@@ -13,4 +13,15 @@ conda install -c conda-forge rich \
 **Importante:** \
 No hacer `$ conda update --all -c conda-forge -y` porque instala una versión de PyTorch sin CUDA \
 
-Para comprobar que está funcionando CUDA en PyTorch ejecutar `/appendix_a/version.py`
+Para comprobar que está funcionando CUDA en PyTorch ejecutar `/appendix_a/version.py` \
+
+
+**Model Qwen3 0.6B** \
+
+Qwen3 0.6B = Qwen 600M \
+Parameters: 596M \
+Vocabulary: 151.936 \
+Embedding dimension: 128 \
+Layers: 28 \
+Heads: 16  \
+Context lenght: 4.096 tokens
