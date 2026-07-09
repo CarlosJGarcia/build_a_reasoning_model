@@ -1,4 +1,5 @@
-# 2.6 Understanding the sequential LLM text generation process
+# 2.6 Understanding the sequential LLM text generation process - how to use the LLM to generate a single token
+# Generate a single token = predict what will be the next token given a sequence of tokens
 
 import torch
 from pathlib import Path
@@ -23,15 +24,14 @@ model.to(device)
 console.print(f"Qwen3 loaded in ({device}) GPU and VRAM (from {model_path})\n", style="gold1", highlight=False)
 
 
-
-"""
+# Tokenize (encode)
 prompt = "Explain large language models."
 input_token_ids_list = tokenizer.encode(prompt)
-print(f"\nNumber of input tokens: {len(input_token_ids_list)}")
+print(f"Prompt: {prompt}")
+print(f"Number of input tokens: {len(input_token_ids_list)}")
 
 
 # Load the input tensor
-device = get_device()
 input_tensor = torch.tensor(input_token_ids_list)
 input_tensor_fmt = input_tensor.unsqueeze(0)  
 input_tensor_fmt = input_tensor_fmt.to(device)
@@ -44,7 +44,6 @@ output_tensor_fmt = output_tensor.squeeze(0)
 print(f"Formatted Output tensor shape: {output_tensor_fmt.shape}")
 
 last_token = output_tensor_fmt[-1]
-print(last_token)
-console.print(f"{tokenizer.decode([20286])}", style="white")
+console.print(f"Last token. {tokenizer.decode([20286])}", style="white")
 print()
-"""
+
