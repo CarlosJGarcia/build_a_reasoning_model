@@ -1,5 +1,5 @@
 # 2.5 Loading pretrained models
-# Cargamos el modelo Qwen3 0.6B = Qwen3 600M
+# Load the Qwen3 0.6B = Qwen3 600M model
 
 import torch
 from pathlib import Path
@@ -54,8 +54,8 @@ if __name__ == "__main__":
     # Load the model
     model_path = Path("qwen3") / "qwen3-0.6B-base.pth"
     model = Qwen3Model(QWEN_CONFIG_06_B)
-    model.load_state_dict(torch.load(model_path))
-    model.to(device)
+    model.load_state_dict(torch.load(model_path,  weights_only=True))
+    model = model.to(device)
     console.print(f"Qwen3 loaded in ({device}) GPU and VRAM (from {model_path})\n", style="gold1", highlight=False)
 
     # Shows model architecture
