@@ -16,8 +16,12 @@ def generate_text_basic_stream(model, token_ids, max_new_tokens, eos_token_id=No
         out = model(token_ids)[:, -1]                          # Scores of the 'predicted next token'
         next_token = torch.argmax(out, dim=-1, keepdim=True)   # Selects 'predicted next token' based on the scores
 
+        """
         if (eos_token_id is not None                           
                 and torch.all(next_token == eos_token_id)):
+            break
+        """
+        if (eos_token_id is not None and next_token.item() == eos_token_id):
             break
 
         yield next_token                                       # Yield the predicted token as soon as it’s generated.
@@ -40,7 +44,7 @@ model.to(device)
 console.print(f"Qwen3 loaded in ({device}) GPU and VRAM (from {model_path})\n", style="gold1", highlight=False)
 
 
-# Tokenizes the propmpT and sends it to the GPU
+# Tokenizes the prompt and sends it to the GPU
 reply = ""
 max_new_tokens = 100                    
 eot_token_id = tokenizer.encode("<|endoftext|>")[0]
