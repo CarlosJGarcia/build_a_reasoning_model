@@ -1,4 +1,4 @@
-# Faster inference via KV Cache. KV = Keys and Values in the attention mechanism.
+# Faster inference via KV Cache. KV = Keys and Values in the attention mechanism
 
 import torch
 from reasoning_from_scratch.qwen3 import KVCache
