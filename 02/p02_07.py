@@ -3,6 +3,16 @@
 
 import time
 import torch
+
+# PyTorch to use TF32 on RTX 5090 for massive speedups on torch.compile()
+torch.set_float32_matmul_precision('high')
+
+# Tell PyTorch's inductor to stop warning you about the growing KV cache shapes
+import torch._inductor.config as inductor_config
+
+# Silence a warning about the KV Cache growing during iteration loops
+inductor_config.triton.cudagraph_dynamic_shape_warn_limit = None
+
 import warnings
 from pathlib import Path
 from p02_03 import get_device
@@ -17,6 +27,9 @@ def generate_text_basic_stream_cache(model, token_ids, max_new_tokens, eos_token
     model.eval()
     cache = KVCache(n_layers=model.cfg["n_layers"])  
     model.reset_kv_cache()                            
+
+    # Tell CUDA Graphs this is the first execution step
+    torch.compiler.cudagraph_mark_step_begin()
 
     out = model(token_ids, cache=cache)[:, -1]       
     for _ in range(max_new_tokens):
@@ -60,7 +73,7 @@ tokenizer_path = Path("qwen3") / "tokenizer-base.json"
 tokenizer = Qwen3Tokenizer(tokenizer_file_path=tokenizer_path)
 console.print(f"\nTokenizer created (from {tokenizer_path})", style="gold1")
 
-# Load the model and send to GPU
+# Load the model, send to GPU and compile
 device = get_device()
 model_path = Path("qwen3") / "qwen3-0.6B-base.pth"
 model = Qwen3Model(QWEN_CONFIG_06_B)
@@ -73,7 +86,8 @@ if (major, minor) >= (2, 8):
     # if the model contains code like self.pos = self.pos + 1
     torch._dynamo.config.allow_unspec_int_on_nn_module = True
 
-model_compiled = torch.compile(model)
+# model_compiled = torch.compile(model)
+model = torch.compile(model, mode="max-autotune")
 console.print(f"Qwen3 loaded and compiled in ({device}) GPU and VRAM (from {model_path})\n", style="gold1", highlight=False)
 
 
