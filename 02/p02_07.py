@@ -99,18 +99,27 @@ console.print(f"Response: {reply}\n", style="white", highlight=False)
 
 # Measure token generation speed and memory usage
 console.print(f"Inference statistics: Measure token generation speed and memory usage", style="gold1")
-start_time = time.time()
-generated_ids = []
 
-# Sends the prompt and gets the output stream from the LLM
-token_stream = generate_text_basic_stream_cache(model=model, token_ids=input_token_ids_tensor, max_new_tokens=max_new_tokens, eos_token_id=eot_token_id)
-for token in token_stream:
-    token_id = token.squeeze(0).tolist()
-    print(tokenizer.decode(token_id), end="", flush=True)
-    next_token_id = token.squeeze(0)
-    generated_ids.append(next_token_id)  #1
+for i in range(3):  
 
-end_time = time.time()
-output_token_ids_tensor = torch.cat(generated_ids, dim=0)
-generate_stats(output_token_ids_tensor, tokenizer, start_time, end_time)
-print()
+    start_time = time.time()
+    generated_ids = []
+
+    # Sends the prompt and gets the output stream from the LLM
+    token_stream = generate_text_basic_stream_cache(model=model, token_ids=input_token_ids_tensor, max_new_tokens=max_new_tokens, eos_token_id=eot_token_id)
+    for token in token_stream:
+        token_id = token.squeeze(0).tolist()
+        print(tokenizer.decode(token_id), end="", flush=True)
+        next_token_id = token.squeeze(0)
+        generated_ids.append(next_token_id)  #1
+
+    end_time = time.time()
+
+    if i == 0:                
+        console.print("\n\nWarm-up run results:", style="gold1")   
+    else:
+        console.print(f"\n\nTimed run {i} results:", style="gold1", highlight=False)
+
+    output_token_ids_tensor = torch.cat(generated_ids, dim=0)
+    generate_stats(output_token_ids_tensor, tokenizer, start_time, end_time)
+    print()
