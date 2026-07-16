@@ -6,12 +6,12 @@ from reasoning_from_scratch.qwen3 import Qwen3Tokenizer
 
 
 # Create "qwen" folder and downloads "tokenizer-base.json" 
-#download_qwen3_small(kind="base", tokenizer_only=True, out_dir="qwen3")
+#download_qwen3_small(kind="base", tokenizer_only=True, out_dir="../models/qwen")
 
 console = Console()
 
 # Create tokenizer_path and tokenizer objects. In Python, the / operator is translated to the Linux, macOS, or Windows "path separator"
-tokenizer_path = Path("qwen3") / "tokenizer-base.json"
+tokenizer_path = Path("../models/qwen3") / "tokenizer-base.json"
 tokenizer = Qwen3Tokenizer(tokenizer_file_path=tokenizer_path)
 console.print(f"\nTokenizer created (from {tokenizer_path})\n", style="gold1")
 
