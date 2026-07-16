@@ -12,5 +12,5 @@ __pycache__/
 # VS Code generated
 .vscode
 
-# Modelosi
-02/qwen3/
+# Modelos
+models/
