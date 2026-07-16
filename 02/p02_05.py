@@ -59,13 +59,13 @@ def generate_stats(output_token_ids, tokenizer, start_time, end_time):
 console = Console()
 
 # Load the tokenizer
-tokenizer_path = Path("qwen3") / "tokenizer-base.json"
+tokenizer_path = Path("../models/qwen3") / "tokenizer-base.json"
 tokenizer = Qwen3Tokenizer(tokenizer_file_path=tokenizer_path)
-console.print(f"\nTokenizer created (from {tokenizer_path})", style="gold1")
+console.print(f"\nTokenizer created (from {tokenizer_path})", style="gold1", highlight=False)
 
 # Load the model and send to GPU
 device = get_device()
-model_path = Path("qwen3") / "qwen3-0.6B-base.pth"
+model_path = Path("../models/qwen3") / "qwen3-0.6B-base.pth"
 model = Qwen3Model(QWEN_CONFIG_06_B)
 model.load_state_dict(torch.load(model_path))
 model.to(device)
