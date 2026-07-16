@@ -52,7 +52,7 @@ if __name__ == "__main__":
     console.print("Qwen3 0.6B Downloaded", style="gold1", highlight=False)
 
     # Load the model
-    model_path = Path("qwen3") / "qwen3-0.6B-base.pth"
+    model_path = Path("../models/qwen3") / "qwen3-0.6B-base.pth"
     model = Qwen3Model(QWEN_CONFIG_06_B)
     model.load_state_dict(torch.load(model_path,  weights_only=True))
     model = model.to(device)
