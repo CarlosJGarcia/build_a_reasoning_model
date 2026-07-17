@@ -63,7 +63,7 @@ console.print(f"\nTokenizer created (from {tokenizer_path})", style="gold1", hig
 device = get_device()
 model_path = Path("../models/qwen3") / "qwen3-0.6B-base.pth"
 model = Qwen3Model(QWEN_CONFIG_06_B)
-model.load_state_dict(torch.load(model_path))
+model.load_state_dict(torch.load(model_path, weights_only=True))
 model.to(device)
 console.print(f"Qwen3 loaded in ({device}) GPU and VRAM (from {model_path})\n", style="gold1", highlight=False)
 

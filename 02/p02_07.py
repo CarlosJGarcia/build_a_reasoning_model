@@ -77,7 +77,7 @@ console.print(f"\nTokenizer created (from {tokenizer_path})", style="gold1", hig
 device = get_device()
 model_path = Path("../models/qwen3") / "qwen3-0.6B-base.pth"
 model = Qwen3Model(QWEN_CONFIG_06_B)
-model.load_state_dict(torch.load(model_path))
+model.load_state_dict(torch.load(model_path, weights_only=True))
 model.to(device)
 major, minor = map(int, torch.__version__.split(".")[:2])
 if (major, minor) >= (2, 8):
