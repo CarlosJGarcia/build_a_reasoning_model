@@ -6,44 +6,34 @@ from reasoning_from_scratch.ch02 import get_device
 from reasoning_from_scratch.qwen3 import download_qwen3_small, Qwen3Tokenizer, Qwen3Model, QWEN_CONFIG_06_B
 
 def load_model_and_tokenizer(which_model, device, use_compile, local_dir="qwen3"):
+    
+    # Load the tokenizer
     if which_model == "base":
-
         # download_qwen3_small(kind="base", tokenizer_only=False, out_dir=local_dir)
-
         tokenizer_path = Path("../models/qwen3") / "tokenizer-base.json"
         model_path = Path("../models/qwen3") / "qwen3-0.6B-base.pth"
         tokenizer = Qwen3Tokenizer(tokenizer_file_path=tokenizer_path)
-
     elif which_model == "reasoning":
-
         download_qwen3_small(kind="reasoning", tokenizer_only=False, out_dir=local_dir)
-
         tokenizer_path = Path(local_dir) / "tokenizer-reasoning.json"
         model_path = Path(local_dir) / "qwen3-0.6B-reasoning.pth"
-        tokenizer = Qwen3Tokenizer(
-            tokenizer_file_path=tokenizer_path,
-            apply_chat_template=True,
-            add_generation_prompt=True,
-            add_thinking=True,
-        )
-
+        tokenizer = Qwen3Tokenizer(tokenizer_file_path=tokenizer_path, apply_chat_template=True, add_generation_prompt=True, add_thinking=True)
     else:
         raise ValueError(f"Invalid choice: which_model={which_model}")
 
+    # Load the model, send to device(CPU/GPU) and compile (optional)
     model = Qwen3Model(QWEN_CONFIG_06_B)
     model.load_state_dict(torch.load(model_path, weights_only=True))
-
     model.to(device)
-
     if use_compile:  #1
         torch._dynamo.config.allow_unspec_int_on_nn_module = True
-        model = torch.compile(model)
+        model = torch.compile(model, mode="max-autotune")
 
     return model, tokenizer
 
 
 WHICH_MODEL = "base"  
 device = get_device()
-# device = torch.device("cpu")  #3
 
 model, tokenizer = load_model_and_tokenizer(which_model=WHICH_MODEL, device=device, use_compile=False)
+model, tokenizer = load_model_and_tokenizer(which_model=WHICH_MODEL, device=device, use_compile=True)
